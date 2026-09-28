@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}
+Create Employee - EAWMS
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h2>Create Employee</h2>
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">
+            Create Employee
+        </button>
+
+    </form>
+
+    <br>
+
+    <a href="{% url 'employee-list' %}">
+        Cancel
+    </a>
+
+</div>
+
+{% endblock %}

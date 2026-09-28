@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ asset.name }} - EAWMS
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+<h2>{{ asset.name }}</h2>
+
+<p>
+    <strong>Asset ID:</strong>
+    {{ asset.asset_id }}
+</p>
+
+<p>
+    <strong>Type:</strong>
+    {{ asset.asset_type }}
+</p>
+
+<p>
+    <strong>Purchase Date:</strong>
+    {{ asset.purchase_date|default:"Not specified" }}
+</p>
+
+<h3>Current Assignment</h3>
+
+{% if current_assignment %}
+
+    <p>
+        Assigned to:
+        <a href="{% url 'employee-detail' current_assignment.employee.id %}">
+            {{ current_assignment.employee.name }}
+        </a>
+    </p>
+
+    <p>
+        Assigned:
+        {{ current_assignment.assigned_at }}
+    </p>
+
+    <form
+        method="post"
+        action="{% url 'asset-return' current_assignment.id %}"
+    >
+        {% csrf_token %}
+        <button type="submit">
+            Return Asset
+        </button>
+    </form>
+
+{% else %}
+
+    <p>Currently unassigned.</p>
+
+    <a href="{% url 'asset-assign' asset.id %}">
+        Assign Asset
+    </a>
+
+{% endif %}
+
+<h3>Assignment History</h3>
+
+<table class="employee-table">
+
+    <thead>
+        <tr>
+            <th>Employee</th>
+            <th>Assigned</th>
+            <th>Returned</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {% for assignment in assignments %}
+
+            <tr>
+                <td>
+                    <a href="{% url 'employee-detail' assignment.employee.id %}">
+                        {{ assignment.employee.name }}
+                    </a>
+                </td>
+
+                <td>
+                    {{ assignment.assigned_at }}
+                </td>
+
+                <td>
+                    {{ assignment.returned_at|default:"Current" }}
+                </td>
+            </tr>
+
+        {% empty %}
+
+            <tr>
+                <td colspan="3">
+                    No assignment history.
+                </td>
+            </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+</div>
+
+{% endblock %}

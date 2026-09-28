@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}
+Assign Employee - EAWMS
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h2>Assign Employee</h2>
+
+    <p>
+        Project: <strong>{{ project.name }}</strong>
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">
+            Assign Employee
+        </button>
+    </form>
+
+</div>
+
+{% endblock %}

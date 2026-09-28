@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}
+Leave Approvals - EAWMS
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h2>Leave Approvals</h2>
+
+    <table class="employee-table">
+
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Department</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for leave in requests %}
+
+                <tr>
+
+                    <td>
+                        {{ leave.employee.name }}
+                    </td>
+
+                    <td>
+                        {{ leave.employee.department.name }}
+                    </td>
+
+                    <td>
+                        {{ leave.start_date }}
+                    </td>
+
+                    <td>
+                        {{ leave.end_date }}
+                    </td>
+
+                    <td>
+                        {{ leave.reason }}
+                    </td>
+
+                    <td>
+                        {{ leave.get_status_display }}
+                    </td>
+
+                    <td>
+
+                        {% if leave.status == "PENDING" %}
+
+                            <form method="post"
+                                  action="{% url 'leave-review' leave.id 'approve' %}">
+                                {% csrf_token %}
+                                <button type="submit">
+                                    Approve
+                                </button>
+                            </form>
+
+                            <form method="post"
+                                  action="{% url 'leave-review' leave.id 'reject' %}">
+                                {% csrf_token %}
+                                <button type="submit">
+                                    Reject
+                                </button>
+                            </form>
+
+                        {% else %}
+
+                            Reviewed
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+            {% empty %}
+
+                <tr>
+                    <td colspan="7">
+                        No leave requests.
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

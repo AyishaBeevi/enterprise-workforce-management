@@ -1,0 +1,88 @@
+
+{% extends "base.html" %}
+
+{% block title %}
+{{ project.name }} - EAWMS
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h2>{{ project.name }}</h2>
+
+    <p>{{ project.description }}</p>
+
+    <p>
+        <strong>Start:</strong>
+        {{ project.start_date }}
+    </p>
+
+    <p>
+        <strong>End:</strong>
+        {{ project.end_date|default:"Not specified" }}
+    </p>
+
+    <a href="{% url 'project-assign-employee' project.id %}">
+    Assign Employee
+</a>
+
+    <h3>Assigned Employees</h3>
+
+    <table class="employee-table">
+
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Employee ID</th>
+                <th>Role</th>
+                <th>Assigned</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for assignment in assignments %}
+
+                <tr>
+                    <td>
+                        <a href="{% url 'employee-detail' assignment.employee.id %}">
+                            {{ assignment.employee.name }}
+                        </a>
+                    </td>
+
+                    <td>{{ assignment.employee.employee_id }}</td>
+                    <td>{{ assignment.role }}</td>
+                    <td>{{ assignment.assigned_at }}</td>
+                    <td>
+                    <form
+                        method="post"
+                        action="{% url 'project-remove-employee' assignment.id %}"
+                    >
+                        {% csrf_token %}
+
+                        <button type="submit">
+                            Remove
+                        </button>
+                    </form>
+                </td>
+                </tr>
+
+            {% empty %}
+
+                <tr>
+                    <td colspan="5">
+                        No employees assigned.
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

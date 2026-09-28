@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+Delete Employee - EAWMS
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h2>Delete Employee</h2>
+
+    <p>
+        Are you sure you want to delete
+        <strong>{{ employee.name }}</strong>?
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <button type="submit">
+            Yes, Delete
+        </button>
+
+        <a href="{% url 'employee-detail' employee.id %}">
+            Cancel
+        </a>
+    </form>
+
+</div>
+
+{% endblock %}

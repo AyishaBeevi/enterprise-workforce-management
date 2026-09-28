@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}
+Edit Attendance
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h2>Edit Attendance</h2>
+
+    <p>
+        Employee: {{ attendance.employee.name }}
+    </p>
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">
+            Save Changes
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

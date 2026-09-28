@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}
+Assign Asset - EAWMS
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h2>Assign {{ asset.name }}</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label for="employee">
+            Employee
+        </label>
+
+        <select name="employee" id="employee" required>
+
+            <option value="">
+                Select employee
+            </option>
+
+            {% for employee in employees %}
+                <option value="{{ employee.id }}">
+                    {{ employee.name }} — {{ employee.employee_id }}
+                </option>
+            {% endfor %}
+
+        </select>
+
+        <button type="submit">
+            Assign Asset
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

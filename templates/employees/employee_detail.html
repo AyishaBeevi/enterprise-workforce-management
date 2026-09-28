@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ employee.name }} - EAWMS
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h2>{{ employee.name }}</h2>
+
+    <p>
+        <strong>Employee ID:</strong>
+        {{ employee.employee_id }}
+    </p>
+
+    <p>
+        <strong>Email:</strong>
+        {{ employee.email }}
+    </p>
+
+    <p>
+        <strong>Phone:</strong>
+        {{ employee.phone }}
+    </p>
+
+    <p>
+        <strong>Department:</strong>
+        {{ employee.department.name }}
+    </p>
+
+    <p>
+        <strong>Salary:</strong>
+        {{ employee.salary }}
+    </p>
+
+    <a href="{% url 'employee-update' employee.id %}">
+        Edit Employee
+    </a>
+
+    <a href="{% url 'employee-delete' employee.id %}">
+        Delete Employee
+    </a>
+
+    <a href="{% url 'employee-list' %}">
+        Back to Employees
+    </a>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block title %}
+Employees - EAWMS
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <header class="page-header">
+        <h2>Employees</h2>
+        <p>Enterprise Asset & Workforce Management System</p>
+    </header>
+
+    <form method="get">
+
+        <input
+            type="text"
+            name="search"
+            placeholder="Search employees..."
+            value="{{ search }}"
+        >
+
+        <button type="submit">
+            Search
+        </button>
+
+    </form>
+
+
+    <form method="get">
+
+        <input
+            type="text"
+            name="search"
+            placeholder="Search employees..."
+            value="{{ search }}"
+        >
+
+        <select name="department">
+
+            <option value="">All Departments</option>
+
+            {% for department in departments %}
+                <option
+                    value="{{ department.name }}"
+                    {% if department_name == department.name %}selected{% endif %}
+                >
+                    {{ department.name }}
+                </option>
+            {% endfor %}
+
+        </select>
+
+        <select name="sort">
+
+        <option
+            value="name"
+            {% if sort == "name" %}selected{% endif %}
+        >
+            Name A-Z
+        </option>
+
+        <option
+            value="-name"
+            {% if sort == "-name" %}selected{% endif %}
+        >
+            Name Z-A
+        </option>
+
+        <option
+            value="salary"
+            {% if sort == "salary" %}selected{% endif %}
+        >
+            Salary Low-High
+        </option>
+
+        <option
+            value="-salary"
+            {% if sort == "-salary" %}selected{% endif %}
+        >
+            Salary High-Low
+        </option>
+
+    </select>
+
+    <button type="submit">
+        Apply
+    </button>
+
+</form>
+
+    <table class="employee-table">
+
+        <thead>
+            <tr>
+                <th>Employee ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Department</th>
+                <th>Salary</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for employee in employees %}
+
+                <tr>
+                    <td>{{ employee.employee_id }}</td>
+                    <td>
+                        <a href="{% url 'employee-detail' employee.id %}">
+                            {{ employee.name }}
+                        </a>
+                    </td>
+                    <td>{{ employee.email }}</td>
+                    <td>{{ employee.department.name }}</td>
+                    <td>{{ employee.salary }}</td>
+                </tr>
+
+            {% empty %}
+
+                <tr>
+                    <td colspan="5">
+                        No employees found.
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <div class="pagination">
+
+        {% if employees.has_previous %}
+            <a href="?{{ query_params }}&page={{ employees.previous_page_number }}">
+                Previous
+            </a>
+        {% endif %}
+
+        <span>
+            Page {{ employees.number }}
+            of {{ employees.paginator.num_pages }}
+        </span>
+
+        {% if employees.has_next %}
+            <a href="?{{ query_params }}&page={{ employees.next_page_number }}">
+                Next
+            </a>
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

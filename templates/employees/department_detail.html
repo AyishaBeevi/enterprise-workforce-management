@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ department.name }} - EAWMS
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h2>{{ department.name }}</h2>
+
+    <p>{{ department.description }}</p>
+
+    <h3>Employees</h3>
+
+    <table class="employee-table">
+
+        <thead>
+            <tr>
+                <th>Employee ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Salary</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for employee in employees %}
+
+                <tr>
+                    <td>{{ employee.employee_id }}</td>
+                    <td>
+                        <a href="{% url 'employee-detail' employee.id %}">
+                            {{ employee.name }}
+                        </a>
+                    </td>
+                    <td>{{ employee.email }}</td>
+                    <td>{{ employee.salary }}</td>
+                </tr>
+
+            {% empty %}
+
+                <tr>
+                    <td colspan="4">
+                        No employees in this department.
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

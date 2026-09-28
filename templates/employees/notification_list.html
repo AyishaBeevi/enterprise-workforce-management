@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}
+Notifications - EAWMS
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h2>Notifications</h2>
+
+    {% for notification in notifications %}
+
+        <div class="notification">
+
+            <p>
+                {{ notification.message }}
+            </p>
+
+            <small>
+                {{ notification.created_at }}
+            </small>
+
+            {% if not notification.is_read %}
+                <strong>New</strong>
+            {% endif %}
+
+        </div>
+
+        {% if not notification.is_read %}
+
+    <form method="post"
+          action="{% url 'notification-mark-read' notification.id %}">
+
+        {% csrf_token %}
+
+        <button type="submit">
+            Mark as read
+        </button>
+
+    </form>
+
+{% else %}
+
+    <small>Read</small>
+
+{% endif %}
+
+    {% empty %}
+
+        <p>No notifications.</p>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

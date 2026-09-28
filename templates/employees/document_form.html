@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}
+Upload Document - EAWMS
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h2>Upload Document</h2>
+
+    <form method="post" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">
+            Upload
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

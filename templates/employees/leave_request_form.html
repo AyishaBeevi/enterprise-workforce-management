@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}
+Request Leave - EAWMS
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h2>Request Leave</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">
+            Submit Request
+        </button>
+    </form>
+
+</div>
+
+{% endblock %}

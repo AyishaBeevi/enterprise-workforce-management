@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}
+Reports - EAWMS
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h2>Reports Dashboard</h2>
+
+    <h3>System Overview</h3>
+
+    <p>Total Employees: {{ total_employees }}</p>
+    <p>Total Departments: {{ total_departments }}</p>
+    <p>Total Projects: {{ total_projects }}</p>
+    <p>Total Assets: {{ total_assets }}</p>
+
+    <h3>Leave Requests</h3>
+
+    <p>Pending: {{ pending_leaves }}</p>
+    <p>Approved: {{ approved_leaves }}</p>
+    <p>Rejected: {{ rejected_leaves }}</p>
+
+</div>
+
+<h3>Employees by Department</h3>
+
+<table class="employee-table">
+
+    <thead>
+        <tr>
+            <th>Department</th>
+            <th>Employees</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {% for department in department_stats %}
+
+            <tr>
+                <td>{{ department.name }}</td>
+                <td>{{ department.employee_count }}</td>
+            </tr>
+
+        {% empty %}
+
+            <tr>
+                <td colspan="2">
+                    No departments found.
+                </td>
+            </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+<h3>Asset Allocation</h3>
+
+<p>
+    Total Assets: {{ total_assets }}
+</p>
+
+<p>
+    Assigned Assets: {{ assigned_assets }}
+</p>
+
+<p>
+    Available Assets: {{ available_assets }}
+</p>
+
+
+<h3>Attendance</h3>
+
+<p>
+    Present: {{ present_count }}
+</p>
+
+<p>
+    Absent: {{ absent_count }}
+</p>
+
+<p>
+    Leave: {{ leave_count }}
+</p>
+<h3>Leave Requests</h3>
+
+<p>
+    Pending: {{ pending_leaves }}
+</p>
+
+<p>
+    Approved: {{ approved_leaves }}
+</p>
+
+<p>
+    Rejected: {{ rejected_leaves }}
+</p>
+{% endblock %}

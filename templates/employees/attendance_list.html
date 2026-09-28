@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}
+My Attendance - EAWMS
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h2>My Attendance</h2>
+
+    <h3>Today</h3>
+
+    {% if today_record %}
+
+        <p>
+            <strong>Status:</strong>
+            {{ today_record.get_status_display }}
+        </p>
+
+        <p>
+            <strong>Check in:</strong>
+            {{ today_record.check_in|default:"—" }}
+        </p>
+
+        <p>
+            <strong>Check out:</strong>
+            {{ today_record.check_out|default:"—" }}
+        </p>
+
+        {% if today_record.check_in and not today_record.check_out %}
+
+            <form method="post"
+                  action="{% url 'attendance-check-out' %}">
+                {% csrf_token %}
+
+                <button type="submit">
+                    Check Out
+                </button>
+            </form>
+
+        {% endif %}
+
+    {% else %}
+
+        <p>You have not checked in today.</p>
+
+        <form method="post"
+              action="{% url 'attendance-check-in' %}">
+            {% csrf_token %}
+
+            <button type="submit">
+                Check In
+            </button>
+        </form>
+
+    {% endif %}
+
+
+    <h3>Attendance History</h3>
+
+    <table class="employee-table">
+
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Check In</th>
+                <th>Check Out</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for record in records %}
+
+                <tr>
+                    <td>{{ record.date }}</td>
+                    <td>{{ record.check_in|default:"—" }}</td>
+                    <td>{{ record.check_out|default:"—" }}</td>
+                    <td>{{ record.get_status_display }}</td>
+                </tr>
+
+            {% empty %}
+
+                <tr>
+                    <td colspan="4">
+                        No attendance records.
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

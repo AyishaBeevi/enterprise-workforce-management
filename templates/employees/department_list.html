@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}
+Departments - EAWMS
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <h2>Departments</h2>
+
+    <table class="employee-table">
+
+        <thead>
+            <tr>
+                <th>Department</th>
+                <th>Description</th>
+                <th>Employees</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for department in departments %}
+
+                <tr>
+                    <td>
+                        <a href="{% url 'department-detail' department.id %}">
+                            {{ department.name }}
+                        </a>
+                    </td>
+                    <td>{{ department.description }}</td>
+                    <td>{{ department.employee_count }}</td>
+                </tr>
+
+            {% empty %}
+
+                <tr>
+                    <td colspan="3">
+                        No departments found.
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}
